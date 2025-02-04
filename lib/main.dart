@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:test_project/story_slider.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -32,93 +38,139 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List people = [
+    {"name": "Ankur", "isOnline": false, "lastMessage": "Let's meet tomorrow"},
+    {"name": "Stella", "isOnline": true, "lastMessage": "Hey what's up"},
+    {
+      "name": "Rosy",
+      "isOnline": true,
+      "lastMessage": "Are you ready for the party.."
+    },
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+    {"name": "Ani", "isOnline": false, "lastMessage": "Let's go have some fun"},
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         title: Text(
-          "Flutter day2",
-          style: TextStyle(color: Colors.orangeAccent),
+          "Chats",
+          style: TextStyle(
+              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 32.0),
         ),
-        leading: Icon(
-          Icons.phone,
-          color: Colors.orangeAccent,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            radius: 26.0,
+          ),
         ),
         actions: [
           Icon(
-            Icons.notification_add,
-            color: Colors.orangeAccent,
-          )
+            Icons.camera_alt,
+            color: Colors.black,
+          ),
+          SizedBox(
+            width: 15,
+          ),
+          Icon(
+            Icons.message,
+            color: Colors.black,
+          ),
+          SizedBox(
+            width: 15,
+          ),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
-          child: Column(
-            spacing: 25.0,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                "images/sunflower.png",
-                width: 250,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Email",
-                ),
-              ),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Password",
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                style: TextButton.styleFrom(
-                    backgroundColor: Colors.orangeAccent,
-                    fixedSize: Size(800.0, 60.0),
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)))),
-                child: Text(
-                  "LOGIN",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 42.0),
-                ),
-              ),
-              Row(
-                spacing: 32.0,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("data"),
-                  Text(
-                    "register",
-                    style: TextStyle(color: Colors.blueAccent),
+          child: ListView(children: [
+            Column(
+              spacing: 25.0,
+              children: <Widget>[
+                TextField(
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    filled: true,
+                    fillColor: const Color.fromARGB(255, 195, 194, 194),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                    hintText: "Search",
                   ),
-                ],
-              ),
-              Text(
-                "Forgot Password",
-                style: TextStyle(color: Colors.blueAccent),
-              ),
-            ],
-          ),
+                ),
+                StorySlider(people: people),
+                ...people.map((item) => Chat(item: item)),
+              ],
+            ),
+          ]),
         ),
       ),
     );
   }
 }
 
-class Foo extends StatelessWidget {
-  const Foo({super.key});
+class Chat extends StatelessWidget {
+  const Chat({super.key, required this.item});
+  final dynamic item;
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Row(
+      children: [
+        Stack(
+          children: [
+            CircleAvatar(
+              backgroundColor: const Color.fromARGB(255, 195, 194, 194),
+              radius: 26.0,
+              backgroundImage: item["name"] == "+"
+                  ? NetworkImage("")
+                  : NetworkImage(
+                      "https://w7.pngwing.com/pngs/753/432/png-transparent-user-profile-2018-in-sight-user-conference-expo-business-default-business-angle-service-people-thumbnail.png"),
+            ),
+            Positioned(
+              left: 36,
+              bottom: 4,
+              child: CircleAvatar(
+                backgroundColor: item["isOnline"] ? Colors.green : Colors.grey,
+                radius: 8,
+              ),
+            )
+          ],
+        ),
+        SizedBox(
+          width: 15,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              item["name"],
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            ),
+            Text(
+              item["lastMessage"],
+              style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
+            ),
+          ],
+        )
+      ],
+    );
   }
 }
